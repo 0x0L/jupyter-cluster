@@ -55,7 +55,10 @@ RUN ipython profile create \
  && echo "c.IPEngineApp.url_file = '/cluster/ipcontroller-engine.json'" \
       > /root/.ipython/profile_ssh/ipcluster_config.py \
  && echo "c.EngineFactory.sshkey = '/cluster/id_rsa'" \
-      >> /root/.ipython/profile_ssh/ipcluster_config.py
+      >> /root/.ipython/profile_ssh/ipcluster_config.py \
+ && mkdir -p  /root/.jupyter \
+ && echo "c.NotebookApp.server_extensions.append('ipyparallel.nbextension')" \
+      >> /root/.jupyter/jupyter_notebook_config.py
 
 # SSH config to allow automatically accept unknown hosts
 RUN sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
