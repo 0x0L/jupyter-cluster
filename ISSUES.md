@@ -6,6 +6,5 @@ pytables is currently broken and usage of HDF stores in Pandas results in an `Il
 ```sh
 # (not so) quick fix: recompile
 pip3 uninstall tables
-find /root/.cache | grep tables | xargs rm
 pip3 install tables
 ```
