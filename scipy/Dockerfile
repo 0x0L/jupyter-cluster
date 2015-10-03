@@ -46,4 +46,6 @@ RUN pip3 install -q \
       tables \
       theano \
       xlrd \
-      xlsxwriter
+      xlsxwriter \
+ && rm -fr /root/.cache \
+ && rm -fr /tmp/*
