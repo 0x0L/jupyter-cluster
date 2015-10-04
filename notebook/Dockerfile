@@ -49,19 +49,13 @@ RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
       nose \
       dill
 
-# Create default profile for local cluster and a SSH profile
-RUN ipython profile create \
- && ipython profile create --parallel --profile=ssh \
- && echo "c.IPEngineApp.url_file = '/cluster/ipcontroller-engine.json'" \
-      > /root/.ipython/profile_ssh/ipcluster_config.py \
- && echo "c.EngineFactory.sshkey = '/cluster/id_rsa'" \
-      >> /root/.ipython/profile_ssh/ipcluster_config.py \
- && mkdir -p  /root/.jupyter \
+# Base configuration
+RUN mkdir -p /root/.ssh \
+ && mkdir -p /root/.jupyter \
+ && ipython profile create --parallel \
  && echo "c.NotebookApp.server_extensions.append('ipyparallel.nbextension')" \
-      >> /root/.jupyter/jupyter_notebook_config.py
-
-# SSH config to allow automatically accept unknown hosts
-RUN sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
+      > /root/.jupyter/jupyter_notebook_config.py \
+ && sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
       /etc/ssh/ssh_config
 
 # The VOLUME instruction should be used to expose any database storage area,
