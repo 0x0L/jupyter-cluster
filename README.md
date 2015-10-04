@@ -47,24 +47,24 @@ dir="$container_id:/root/.ipython/profile_default/security"
 docker cp $dir/ipcontroller-engine.json ipcontroller-engine.json
 docker cp $dir/ipcontroller-client.json ipcontroller-client.json
 docker cp $container_id:/root/.ssh/id_rsa id_rsa
-
-unset dir
-unset container_id
-unset host
-unset port
 ```
 
 Engines
 -------
 
-Spawning new engines is easy. To connect engines to our freshly started cluster, we just need to mount the required files into the `/cluster` directory (in read-only mode). On each physical node, run
+Spawning new engines is easy. To connect engines to our freshly started cluster, we need to mount the required connection files into the container. On each physical node, run
 
 ```sh
+dir="/root/.ipython/profile_default/security"
+
 # cd path containing id_rsa and ipcontroller-*.json
-docker run -d -v $PWD:/cluster:ro 0x0l/scipy ipcluster engines --profile=ssh
+docker run -d \
+       -v $PWD/id_rsa:/root/.ssh/id_rsa:ro \
+       -v $PWD/ipcontroller-engine.json:$dir/ipcontroller-engine.json:ro \
+       0x0l/scipy ipcluster engines
 ```
 
-By default `ipcluster` launches as many engines as there are available CPU cores. One can manually set the number of engines to be launched using the `-N=` option.
+By default `ipcluster` launches as many engines as there are available CPU cores. To control the number of engines to be launched use the `-n` option.
 
 Clients
 -------
@@ -73,18 +73,17 @@ Running a notebook server is similar to running engines
 
 ```sh
 # cd path containing id_rsa and ipcontroller-*.json
-docker run -d -v $PWD:/cluster:ro -p 8888:8888 0x0l/scipy
+docker run -d -p 8888:8888 \
+       -v $PWD/id_rsa:/root/.ssh/id_rsa:ro \
+       -v $PWD/ipcontroller-client.json:$dir/ipcontroller-client.json:ro \
+       0x0l/scipy
 ```
 
 Alternatively,
 
 ```sh
-docker run -it --rm -v $PWD:/cluster:ro 0x0l/scipy bash
-```
-
-One needs to specify the connection file and SSH key when instantiating a `Client`
-
-```python
-from ipyparallel import Client
-rc = Client(sshkey='/cluster/id_rsa', url_file='/cluster/ipcontroller-client.json')
+docker run -it --rm \
+       -v $PWD/id_rsa:/root/.ssh/id_rsa:ro \
+       -v $PWD/ipcontroller-client.json:$dir/ipcontroller-client.json:ro \
+       0x0l/scipy bash
 ```
