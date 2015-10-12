@@ -1,0 +1,9 @@
+#!/bin/sh
+
+/usr/local/bin/connect
+
+echo "➜ Starting up notebook server"
+echo "c.NotebookApp.server_extensions.append('ipyparallel.nbextension')" \
+  > /home/jovyan/.jupyter/jupyter_notebook_config.py
+
+exec jupyter notebook --ip='*'

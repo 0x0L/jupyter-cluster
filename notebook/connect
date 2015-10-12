@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ ! -f /home/jovyan/.ssh/id_rsa ] ; then
+    exit
+fi
+
+echo "➜ Connecting to controller"
+
+security="/home/jovyan/.ipython/profile_default/security"
+scp -P $CONTROLLER_PORT $CONTROLLER_HOST:$security/* $security
+
+tunnels=""
+for p in $(cat ${security}/*.json | grep -o " [0-9]\+" | grep -o '[0-9]\+' | sort | uniq); do
+  tunnels="${tunnels} -L ${p}:localhost:${p}"
+done
+
+ssh -f -N $tunnels $CONTROLLER_HOST -p $CONTROLLER_PORT

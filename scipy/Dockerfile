@@ -1,4 +1,4 @@
-FROM 0x0l/notebook:latest
+FROM 0x0l/notebook
 
 # Install OpenBLAS
 RUN apt-get install -y -q gfortran \
@@ -35,6 +35,7 @@ RUN pip3 install -q \
       matplotlib \
       numexpr \
       pandas \
+      pandas-datareader \
       patsy \
       pillow \
       pykalman \

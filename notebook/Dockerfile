@@ -21,11 +21,13 @@ RUN apt-get install -y -q \
       git \
       less \
       libsm6 \
+      openssh-server \
       pandoc \
       pkg-config \
       python3 \
       python3-dev \
       python3-pip \
+      sudo \
       tmux \
       tree \
       unzip \
@@ -43,27 +45,33 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.6.0/tini \
 # Update python packages and install Jupyter
 RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
  && pip3 install -q \
-      jupyter \
-      notebook \
+      dill \
       ipyparallel \
+      jupyter \
       nose \
-      dill
+      notebook \
+ && ipython profile create --parallel
 
-# Base configuration
-RUN mkdir -p /root/.ssh \
- && mkdir -p /root/.jupyter \
- && ipython profile create --parallel \
- && echo "c.NotebookApp.server_extensions.append('ipyparallel.nbextension')" \
-      > /root/.jupyter/jupyter_notebook_config.py \
- && sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
+RUN sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
       /etc/ssh/ssh_config
 
-# The VOLUME instruction should be used to expose any database storage area,
-# configuration storage, or files/folders created by your docker container
-VOLUME /data
-VOLUME /notebooks
-WORKDIR /notebooks
+# User mapping
+ENV NB_UID=1000
+ENV NB_GID=1000
+
+ENV CONTROLLER_HOST=192.168.99.100
+ENV CONTROLLER_PORT=50000
 
 EXPOSE 8888
-ENTRYPOINT ["tini", "--"]
-CMD ["jupyter", "notebook", "--ip=*"]
+EXPOSE 2222
+ENTRYPOINT ["tini", "start"]
+CMD ["console"]
+
+COPY start console connect controller engines notebook /usr/local/bin/
+RUN chmod u+x /usr/local/bin/start
+RUN chmod +x \
+      /usr/local/bin/console \
+      /usr/local/bin/connect \
+      /usr/local/bin/controller \
+      /usr/local/bin/engines \
+      /usr/local/bin/notebook

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+/usr/local/bin/connect
+
+echo "➜ Starting up engines"
+exec ipcluster engines
