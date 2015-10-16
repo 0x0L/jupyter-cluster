@@ -9,14 +9,22 @@ Quick usage
 -----------
 
 ```sh
-# Create a key for cluster access
-ssh-keygen -q -t rsa -N '' -f test_cluster_key
-
-# Controller connection information
-# 192.168.99.100 is the visible ip of the docker host running the controller
+# Start the controller first
 # 50000 is a random chosen port unique to this cluster
-export CLUSTER="192.168.99.100:50000:${PWD}/test_cluster_key"
-bin/controller.sh
-bin/engines.sh
-bin/notebook.sh
+bin/controller.sh 50000
+
+# On each worker node run
+bin/engines.sh 192.168.99.100:50000
+# 192.168.99.100 is the visible ip of the docker host running the controller
+
+# Connect a notebook to the cluster
+bin/notebook.sh 192.168.99.100:50000
+```
+
+```python
+from ipyparallel import Client
+rc = Client()
+...
+# this actually shutdowns the docker containers
+rc.shutdown()
 ```

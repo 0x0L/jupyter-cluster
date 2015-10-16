@@ -58,20 +58,15 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
 # User mapping
 ENV NB_UID=1000
 ENV NB_GID=1000
-
-ENV CONTROLLER_HOST=192.168.99.100
-ENV CONTROLLER_PORT=50000
+ENV CONTROLLER="192.168.99.100:50000"
 
 EXPOSE 8888
 EXPOSE 2222
 ENTRYPOINT ["tini", "start"]
-CMD ["console"]
+CMD ["notebook"]
 
-COPY start console connect controller engines notebook /usr/local/bin/
-RUN chmod u+x /usr/local/bin/start
-RUN chmod +x \
-      /usr/local/bin/console \
-      /usr/local/bin/connect \
-      /usr/local/bin/controller \
-      /usr/local/bin/engines \
-      /usr/local/bin/notebook
+RUN mkdir /docker-scripts
+COPY start /usr/sbin/start
+COPY console connect controller engines notebook /docker-scripts/
+RUN chmod u+x /usr/sbin/start \
+ && chmod +x /docker-scripts/*

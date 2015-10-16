@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/usr/local/bin/connect
+/docker-scripts/connect
 
 echo "➜ Starting up engines"
 exec ipcluster engines

@@ -4,7 +4,7 @@ FROM 0x0l/notebook
 RUN apt-get install -y -q gfortran \
  && git clone -q --branch=master git://github.com/xianyi/OpenBLAS.git /tmp/OpenBLAS \
  && ( cd /tmp/OpenBLAS \
-   && make DYNAMIC_ARCH=1 NO_AFFINITY=1 NUM_THREADS=32 \
+   && make NO_LAPACKE=1 DYNAMIC_ARCH=1 NO_AFFINITY=1 NO_WARMUP=1 NUM_THREADS=64 \
    && make install ) \
  && rm -fr /tmp/OpenBLAS \
  && echo "/opt/OpenBLAS/lib" > /etc/ld.so.conf.d/openblas.conf \
@@ -30,7 +30,6 @@ RUN pip3 install -q \
       bottleneck \
       cython \
       h5py \
-      lasagne \
       lxml \
       matplotlib \
       numexpr \
@@ -45,8 +44,13 @@ RUN pip3 install -q \
       statsmodels \
       sympy \
       tables \
-      theano \
       xlrd \
       xlsxwriter \
+ && rm -fr /root/.cache \
+ && rm -fr /tmp/*
+
+RUN pip3 install git+https://github.com/Theano/Theano \
+ && pip3 install git+https://github.com/lasagne/lasagne \
+ && pip3 install git+https://github.com/pymc-devs/pymc3 \
  && rm -fr /root/.cache \
  && rm -fr /tmp/*

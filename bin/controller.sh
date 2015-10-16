@@ -1,10 +1,8 @@
 #!/bin/bash
 
-CONTROLLER_HOST=$( echo $CLUSTER | cut -d : -f 1 )
-CONTROLLER_PORT=$( echo $CLUSTER | cut -d : -f 2 )
-KEY_FILE=$( echo $CLUSTER | cut -d : -f 3 )
+CONTROLLER_PORT=${1:-50000}
+PUBLIC_KEY_FILE=${2:-$HOME/.ssh/id_rsa.pub}
 
-docker run -d -p ${CONTROLLER_PORT}:2222 \
-           -v ${KEY_FILE}:/id_rsa:ro \
-           -v ${KEY_FILE}.pub:/id_rsa.pub:ro \
-           0x0l/notebook controller
+docker run -v ${PUBLIC_KEY_FILE}:/id_rsa.pub:ro \
+           -p ${CONTROLLER_PORT}:2222 \
+           -d 0x0l/notebook controller

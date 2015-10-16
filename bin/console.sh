@@ -1,12 +1,8 @@
 #!/bin/bash
 
-CONTROLLER_HOST=$( echo $CLUSTER | cut -d : -f 1 )
-CONTROLLER_PORT=$( echo $CLUSTER | cut -d : -f 2 )
-KEY_FILE=$( echo $CLUSTER | cut -d : -f 3 )
+CONTROLLER=${1:-192.168.99.100:50000}
+PRIVATE_KEY_FILE=${2:-$HOME/.ssh/id_rsa}
 
-docker run -it --rm \
-           -v ${KEY_FILE}:/id_rsa:ro \
-           -v ${KEY_FILE}.pub:/id_rsa.pub:ro \
-           -e CONTROLLER_HOST=${CONTROLLER_HOST} \
-           -e CONTROLLER_PORT=${CONTROLLER_PORT} \
-           0x0l/notebook console
+docker run -e CONTROLLER=${CONTROLLER} \
+           -v ${PRIVATE_KEY_FILE}:/id_rsa:ro \
+           -it --rm 0x0l/notebook console

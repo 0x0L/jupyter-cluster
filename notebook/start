@@ -1,32 +1,37 @@
 #!/bin/bash
 
 echo "➜ Setting up jovyan user"
-
 useradd --create-home -s /bin/bash -u $NB_UID jovyan
 
 # Change UID of NB_USER to NB_UID if it does not match
 if [ "$NB_GID" != $(id -g jovyan) ] ; then
-    groupmod -g $NB_GID jovyan
+  groupmod -g $NB_GID jovyan
 fi
 
 # Enable sudo if requested
 if [ ! -z "$GRANT_SUDO" ]; then
-    echo "➜ Adding jovyan to sudoers"
-    echo "jovyan ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/notebook
+  echo "➜ Adding jovyan to sudoers"
+  echo "jovyan ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/notebook
 fi
 
+# Setup SSH access
 cd /home/jovyan
 mkdir -p .jupyter .ssh
-cp -R /root/.ipython .ipython
 
 if [ -f /id_rsa ] ; then
-    cp /id_rsa .ssh
+  cp /id_rsa .ssh
 fi
 
 if [ -f /id_rsa.pub ] ; then
-    cp /id_rsa.pub .ssh
-    cp .ssh/id_rsa.pub .ssh/authorized_keys
+  cp /id_rsa.pub .ssh
+  cp .ssh/id_rsa.pub .ssh/authorized_keys
 fi
 
+# Import pre-built ipython profile
+cp -R /root/.ipython .ipython
+
+# Setting permissions
 chown -R jovyan:jovyan /home/jovyan
-exec su jovyan - /usr/local/bin/$@
+
+# Dispatch docker command
+exec su jovyan /docker-scripts/$@
