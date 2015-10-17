@@ -11,22 +11,29 @@ RUN apt-get update -q \
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
+ENV PYTHONIOENCODING UTF-8
 
 # A few packages
-RUN apt-get install -y -q \
+RUN apt-get install -yq \
       ack-grep \
       build-essential \
       bzip2 \
+      ca-certificates \
       curl \
       git \
       less \
-      libsm6 \
+      libcurl4-openssl-dev \
+      libffi-dev \
+      libsqlite3-dev \
+      libssl-dev \
+      libzmq3-dev \
       openssh-server \
       pandoc \
       pkg-config \
       python3 \
       python3-dev \
       python3-pip \
+      sqlite3 \
       sudo \
       tmux \
       tree \
@@ -34,7 +41,10 @@ RUN apt-get install -y -q \
       vim \
       wget \
       xsel \
-      zip
+      zip \
+      zlib1g-dev \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 # Tini
 RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.6.0/tini \
@@ -44,19 +54,21 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.6.0/tini \
 
 # Update python packages and install Jupyter
 RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
- && pip3 install -q \
+ && pip3 install -q --upgrade \
       dill \
       ipyparallel \
       jupyter \
       nose \
       notebook \
+      requests[security] \
  && ipython profile create --parallel
 
 EXPOSE 2222 8888
 ENTRYPOINT ["tini", "run"]
 
 ENV JUPYTER_ID="1000:1000"
-ENV CONTROLLER=""
+ENV JUPYTER_ENGINES_N=""
+ENV JUPYTER_CONTROLLER=""
 CMD ["console"]
 
 COPY run /usr/sbin/run

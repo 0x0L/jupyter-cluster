@@ -2,13 +2,13 @@
 
 set -e
 
-if [ -z $CONTROLLER ] || [ ! -f $HOME/.ssh/id_rsa ] ; then
+if [ -z $JUPYTER_CONTROLLER ] || [ ! -f $HOME/.ssh/id_rsa ] ; then
   exit
 fi
 
 echo "➜ Connecting to controller"
-CONTROLLER_HOST=`echo $CONTROLLER | cut -d: -f1`
-CONTROLLER_PORT=`echo $CONTROLLER | cut -d: -f2`
+CONTROLLER_HOST=`echo $JUPYTER_CONTROLLER | cut -d: -f1`
+CONTROLLER_PORT=`echo $JUPYTER_CONTROLLER | cut -d: -f2`
 
 # Enable password-less SSH connections
 cat << EOF > $HOME/.ssh/config
@@ -26,4 +26,4 @@ TUNNELS=""
 for x in `echo $PORTS`; do
   TUNNELS="$TUNNELS -L $x:127.0.0.1:$x"
 done
-ssh -f -N $TUNNELS $CONTROLLER_HOST -p $CONTROLLER_PORT
+ssh -fNT $TUNNELS $CONTROLLER_HOST -p $CONTROLLER_PORT

@@ -2,30 +2,34 @@
 
 USAGE="usage: jupyter-docker (console | controller | engines | notebook)"
 
-PARAMS=""
-if [ ! -z $JUPYTER_CONTROLLER ] && [ ! -z $JUPYTER_KEY_PRV ]; then
-  PARAMS+="-e CONTROLLER=$JUPYTER_CONTROLLER "
-  PARAMS+="-v $JUPYTER_KEY_PRV:/id_rsa:ro "
-fi
-if [ ! -z $JUPYTER_ID ]; then
-  PARAMS+="-e JUPYTER_ID=$JUPYTER_ID "
-fi
-if [ ! -z $JUPYTER_SUDO ]; then
-  PARAMS+="-e JUPYTER_SUDO=1 "
-fi
-PARAMS+="$JUPYTER_DOCKER_ARGS "
-PARAMS+="$JUPYTER_IMAGE"
+function parse_env {
+  PARAMS=""
+  if [ ! -z $JUPYTER_CONTROLLER ] && [ ! -z $JUPYTER_KEY_PRV ]; then
+    PARAMS+="-e JUPYTER_CONTROLLER=$JUPYTER_CONTROLLER "
+    PARAMS+="-v $JUPYTER_KEY_PRV:/id_rsa:ro "
+  fi
+  if [ ! -z $JUPYTER_ID ]; then
+    PARAMS+="-e JUPYTER_ID=$JUPYTER_ID "
+  fi
+  if [ ! -z $JUPYTER_SUDO ]; then
+    PARAMS+="-e JUPYTER_SUDO=1 "
+  fi
+  if [ ! -z $JUPYTER_ENGINES_N ]; then
+    PARAMS+="-e JUPYTER_ENGINES_N="$JUPYTER_ENGINES_N" "
+  fi
+  PARAMS+="$JUPYTER_DOCKER_ARGS "
+}
 
 function run_console {
-  docker run -it --rm $PARAMS console
+  docker run -it --rm $PARAMS $JUPYTER_IMAGE console
 }
 
 function run_engines {
-  docker run -d $PARAMS engines
+  docker run -d $PARAMS $JUPYTER_IMAGE engines
 }
 
 function run_notebook {
-  docker run -d -p $JUPYTER_NOTEBOOK_PORT:8888 $PARAMS notebook
+  docker run -d -p $JUPYTER_NOTEBOOK_PORT:8888 $PARAMS $JUPYTER_IMAGE notebook
 }
 
 function run_controller {
@@ -34,6 +38,8 @@ function run_controller {
              -p $CONTROLLER_PORT:2222 \
              -d 0x0l/jupyter controller
 }
+
+parse_env
 
 ACTION=$1
 case $ACTION in

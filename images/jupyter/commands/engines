@@ -3,4 +3,9 @@
 /docker-commands/controller-connect
 
 echo "➜ Starting up engines"
-exec ipcluster engines
+
+if [ ! -z $JUPYTER_ENGINES_N ]; then
+  OPTS="--n=$JUPYTER_ENGINES_N"
+fi
+
+exec ipcluster engines $OPTS

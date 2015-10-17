@@ -1,1 +1,8 @@
+.git
+.git*
+.mailmap
+.travis.yml
+cluster.*
 images/*/README.md
+Makefile
+*.md

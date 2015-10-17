@@ -1,14 +1,17 @@
 FROM 0x0l/jupyter:latest
 
 # Install OpenBLAS
-RUN apt-get install -y -q gfortran \
+RUN apt-get update -q \
+ && apt-get install -yq --no-install-recommends gfortran \
  && git clone -q --branch=master git://github.com/xianyi/OpenBLAS.git /tmp/OpenBLAS \
  && ( cd /tmp/OpenBLAS \
    && make NO_LAPACKE=1 DYNAMIC_ARCH=1 NO_AFFINITY=1 NO_WARMUP=1 NUM_THREADS=64 \
    && make install ) \
  && rm -fr /tmp/OpenBLAS \
  && echo "/opt/OpenBLAS/lib" > /etc/ld.so.conf.d/openblas.conf \
- && ldconfig
+ && ldconfig \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 # Numpy / Scipy
 ENV OPENBLAS /opt/OpenBLAS/lib/libopenblas.so
@@ -26,6 +29,7 @@ RUN apt-get install -y -q \
 
 RUN pip3 install -q \
       beautifulsoup4 \
+      bokeh \
       blosc \
       bottleneck \
       cython \
@@ -39,7 +43,9 @@ RUN pip3 install -q \
       pillow \
       pykalman \
       quandl \
+      scikit-image \
       scikit-learn \
+      seaborn \
       sqlalchemy \
       statsmodels \
       sympy \

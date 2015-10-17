@@ -16,15 +16,19 @@ export JUPYTER_CONTROLLER="192.168.99.100:9000"
 # (optional) Custom additional docker
 # export JUPYTER_DOCKER_ARGS="-v $HOME/data:/mnt/data:ro"
 
-# A key pair for connecting to the controller
-export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
-export JUPYTER_KEY_PUB="$HOME/.ssh/id_rsa.pub"
+# (optional) Number of engines per node
+# default: number of available cpu cores
+# export JUPYTER_ENGINES_N="16"
 
 # User mapping
 export JUPYTER_ID="1000:1000"
 
 # Image to run for the clients and engines containers
 export JUPYTER_IMAGE="0x0l/scipy"
+
+# A key pair for connecting to the controller
+export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
+export JUPYTER_KEY_PUB="$HOME/.ssh/id_rsa.pub"
 
 # Notebook http port
 export JUPYTER_NOTEBOOK_PORT="8888"
