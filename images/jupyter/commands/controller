@@ -13,7 +13,7 @@ PidFile $HOME/sshd/pid
 EOF
 
 cp .ssh/id_rsa.pub .ssh/authorized_keys
-/usr/sbin/sshd -f sshd/sshd_config -E sshd/log
+/usr/sbin/sshd -f $HOME/sshd/sshd_config -E $HOME/sshd/log
 
 echo "➜ Starting up controller"
 exec ipcontroller --location='127.0.0.1' \
