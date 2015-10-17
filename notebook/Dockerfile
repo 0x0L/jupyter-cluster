@@ -58,7 +58,7 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
 # User mapping
 ENV NB_UID=1000
 ENV NB_GID=1000
-ENV CONTROLLER="192.168.99.100:50000"
+ENV CONTROLLER=""
 
 EXPOSE 8888
 EXPOSE 2222
@@ -67,6 +67,6 @@ CMD ["notebook"]
 
 RUN mkdir /docker-scripts
 COPY start /usr/sbin/start
-COPY console connect controller engines notebook /docker-scripts/
+COPY console controller controller-connect engines notebook /docker-scripts/
 RUN chmod u+x /usr/sbin/start \
  && chmod +x /docker-scripts/*

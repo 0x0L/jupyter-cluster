@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/docker-scripts/connect
+/docker-scripts/controller-connect
 
 echo "➜ Starting up notebook server"
 

@@ -8,23 +8,33 @@ This project is hosted on [Github](https://github.com/0x0L/jupyter-cluster) and 
 Quick usage
 -----------
 
+Add to `.bashrc`
 ```sh
-# Start the controller first
-# 50000 is a random chosen port unique to this cluster
-bin/controller.sh 50000
+# Visible location and port of the host running the controller
+export JUPYTER_CONTROLLER="192.168.99.100:50000"
 
-# On each worker node run
-bin/engines.sh 192.168.99.100:50000
-# 192.168.99.100 is the visible ip of the docker host running the controller
+# Image to run for the clients and engines containers
+export JUPYTER_IMAGE="0x0l/scipy"
 
-# Connect a notebook to the cluster
-bin/notebook.sh 192.168.99.100:50000
+# Notebook http port
+export JUPYTER_NOTEBOOK_PORT="8888"
+
+# A key pair for the controller
+export JUPYTER_PRIVATE_KEY="${HOME}/.ssh/id_rsa"
+export JUPYTER_PUBLIC_KEY="${HOME}/.ssh/id_rsa.pub"
 ```
 
+Use `bin/jupyter-docker` to spawn images
+
+Tip
+---
+
+Shutdown all engines/controller containers
 ```python
-from ipyparallel import Client
-rc = Client()
+>>> from ipyparallel import Client
+>>> rc = Client()
+>>> len(rc)
+160
 ...
-# this actually shutdowns the docker containers
-rc.shutdown()
+>>> rc.shutdown(hub=True)
 ```

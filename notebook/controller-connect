@@ -2,7 +2,7 @@
 
 set -e
 
-if [ ! -f /home/jovyan/.ssh/id_rsa ] ; then
+if [ -z $CONTROLLER ] || [ ! -f /home/jovyan/.ssh/id_rsa ] ; then
   exit
 fi
 
@@ -18,7 +18,7 @@ ports=`cat ${security}/*.json | sed -En "s/.*: ([0-9]+),?/\1/p" | sort | uniq`
 
 ssh_tunnels=""
 for p in `echo $ports`; do
-  ssh_tunnels="${ssh_tunnels} -L ${p}:localhost:${p}"
+  ssh_tunnels="${ssh_tunnels} -L ${p}:127.0.0.1:${p}"
 done
 
 ssh -f -N $ssh_tunnels $CONTROLLER_HOST -p $CONTROLLER_PORT

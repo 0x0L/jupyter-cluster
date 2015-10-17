@@ -49,8 +49,7 @@ RUN pip3 install -q \
  && rm -fr /root/.cache \
  && rm -fr /tmp/*
 
-RUN pip3 install git+https://github.com/Theano/Theano \
- && pip3 install git+https://github.com/lasagne/lasagne \
- && pip3 install git+https://github.com/pymc-devs/pymc3 \
+RUN pip3 install git+https://github.com/Theano/Theano.git \
+ && pip3 install git+https://github.com/lasagne/lasagne.git \
+ && pip3 install git+https://github.com/pymc-devs/pymc3.git \
  && rm -fr /root/.cache \
- && rm -fr /tmp/*
