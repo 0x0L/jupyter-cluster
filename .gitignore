@@ -1,3 +1,2 @@
+cluster.*
 cluster.mnt/
-cluster.key*
-cluster.env
