@@ -1,9 +1,12 @@
-BUILD:=docker build --rm --force-rm -t
+BUILD:=docker build --rm --force-rm
 
 jupyter:
-	$(BUILD) 0x0l/jupyter images/jupyter
+	$(BUILD) -t 0x0l/jupyter images/jupyter
 
 scipy:
-	$(BUILD) 0x0l/scipy images/scipy
+	$(BUILD) -t 0x0l/scipy images/scipy
+
+install:
+	cp bin/jupyter-docker "${HOME}/bin"
 
 .PHONY: jupyter scipy

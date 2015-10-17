@@ -2,27 +2,27 @@
 
 USAGE="usage: jupyter-docker (console | controller | engines | notebook)"
 
-COMMON="-e CONTROLLER=$JUPYTER_CONTROLLER \
-        -e JUPYTER_ID=$JUPYTER_ID \
-        -v $JUPYTER_KEY:/id_rsa:ro \
-        -v $JUPYTER_KEY_PUB:/id_rsa.pub:ro \
-        $JUPYTER_MOUNT $JUPYTER_IMAGE"
+CLIENT_OPTS="-e CONTROLLER=$JUPYTER_CONTROLLER \
+             -e JUPYTER_ID=$JUPYTER_ID \
+             -v $JUPYTER_KEY:/id_rsa:ro \
+             -v $JUPYTER_KEY_PUB:/id_rsa.pub:ro \
+             $JUPYTER_MOUNT \
+             $JUPYTER_IMAGE"
 
-function start_console {
-  docker run -it --rm $COMMON console
+function run_console {
+  docker run -it --rm $CLIENT_OPTS console
 }
 
-function start_engines {
-  docker run -d $COMMON engines
+function run_engines {
+  docker run -d $CLIENT_OPTS engines
 }
 
-function start_notebook {
-  docker run -d -p $JUPYTER_NOTEBOOK_PORT:8888 $COMMON notebook
+function run_notebook {
+  docker run -d -p $JUPYTER_NOTEBOOK_PORT:8888 $CLIENT_OPTS notebook
 }
 
-function start_controller {
+function run_controller {
   CONTROLLER_PORT=$(echo $JUPYTER_CONTROLLER | cut -d: -f2)
-
   docker run -v $JUPYTER_KEY_PUB:/id_rsa.pub:ro \
              -p $CONTROLLER_PORT:2222 \
              -d 0x0l/jupyter controller
@@ -30,9 +30,9 @@ function start_controller {
 
 ACTION=$1
 case $ACTION in
-    console) start_console ;;
-    controller) start_controller ;;
-    engines) start_engines ;;
-    notebook) start_notebook ;;
-    *) echo $USAGE ;;
+    console)    run_console ;;
+    controller) run_controller ;;
+    engines)    run_engines ;;
+    notebook)   run_notebook ;;
+    *)          echo $USAGE ;;
 esac
