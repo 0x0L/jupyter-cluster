@@ -1,0 +1,29 @@
+#!/bin/sh
+
+set -e
+
+if [ -z $CONTROLLER ] || [ ! -f $HOME/.ssh/id_rsa ] ; then
+  exit
+fi
+
+echo "➜ Connecting to controller"
+CONTROLLER_HOST=`echo $CONTROLLER | cut -d: -f1`
+CONTROLLER_PORT=`echo $CONTROLLER | cut -d: -f2`
+
+# Enable password-less SSH connections
+cat << EOF > $HOME/.ssh/config
+Host $CONTROLLER_HOST
+    StrictHostKeyChecking no
+EOF
+
+# Retrieve ipyparallel connection files
+DIR="$HOME/.ipython/profile_default/security"
+scp -P $CONTROLLER_PORT $CONTROLLER_HOST:$DIR/* $DIR
+
+# Make tunnels
+PORTS=`cat $DIR/*.json | sed -En "s/.*: ([0-9]+),?/\1/p" | sort | uniq`
+TUNNELS=""
+for x in `echo $PORTS`; do
+  TUNNELS="$TUNNELS -L $x:127.0.0.1:$x"
+done
+ssh -f -N $TUNNELS $CONTROLLER_HOST -p $CONTROLLER_PORT

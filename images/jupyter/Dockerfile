@@ -52,21 +52,14 @@ RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
       notebook \
  && ipython profile create --parallel
 
-RUN sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' \
-      /etc/ssh/ssh_config
+EXPOSE 2222 8888
+ENTRYPOINT ["tini", "run"]
 
-# User mapping
-ENV NB_UID=1000
-ENV NB_GID=1000
+ENV JUPYTER_ID="1000:1000"
 ENV CONTROLLER=""
+CMD ["console"]
 
-EXPOSE 8888
-EXPOSE 2222
-ENTRYPOINT ["tini", "start"]
-CMD ["notebook"]
-
-RUN mkdir /docker-scripts
-COPY start /usr/sbin/start
-COPY console controller controller-connect engines notebook /docker-scripts/
-RUN chmod u+x /usr/sbin/start \
- && chmod +x /docker-scripts/*
+COPY run /usr/sbin/run
+COPY commands /docker-commands
+RUN chmod u+x /usr/sbin/run \
+ && chmod +x /docker-commands/*

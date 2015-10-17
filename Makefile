@@ -1,15 +1,9 @@
-.PHONY: notebook scipy
-
 BUILD:=docker build --rm --force-rm -t
 
-all: notebook scipy
+jupyter:
+	$(BUILD) 0x0l/jupyter images/jupyter
 
-pull:
-	docker pull 0x0l/notebook
-	docker pull 0x0l/scipy
+scipy:
+	$(BUILD) 0x0l/scipy images/scipy
 
-notebook:
-	$(BUILD) 0x0l/notebook notebook
-
-scipy: notebook
-	$(BUILD) 0x0l/scipy scipy
+.PHONY: jupyter scipy

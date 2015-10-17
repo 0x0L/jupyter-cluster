@@ -1,10 +1,11 @@
 #!/bin/sh
 
-/docker-scripts/controller-connect
+/docker-commands/controller-connect
 
 echo "➜ Starting up notebook server"
 
+mkdir .jupyter
 echo "c.NotebookApp.server_extensions.append('ipyparallel.nbextension')" \
-  > /home/jovyan/.jupyter/jupyter_notebook_config.py
+  > .jupyter/jupyter_notebook_config.py
 
 exec jupyter notebook --ip='*'

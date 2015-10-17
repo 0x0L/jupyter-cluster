@@ -1,4 +1,4 @@
-FROM 0x0l/notebook
+FROM 0x0l/jupyter:latest
 
 # Install OpenBLAS
 RUN apt-get install -y -q gfortran \
@@ -46,10 +46,8 @@ RUN pip3 install -q \
       tables \
       xlrd \
       xlsxwriter \
+ && pip3 install -q git+https://github.com/Theano/Theano.git \
+ && pip3 install -q git+https://github.com/lasagne/lasagne.git \
+ && pip3 install -q git+https://github.com/pymc-devs/pymc3.git \
  && rm -fr /root/.cache \
  && rm -fr /tmp/*
-
-RUN pip3 install git+https://github.com/Theano/Theano.git \
- && pip3 install git+https://github.com/lasagne/lasagne.git \
- && pip3 install git+https://github.com/pymc-devs/pymc3.git \
- && rm -fr /root/.cache \

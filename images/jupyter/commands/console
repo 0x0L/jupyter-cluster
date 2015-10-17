@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/docker-scripts/controller-connect
+/docker-commands/controller-connect
 
 echo "➜ Starting up console"
 exec tmux
