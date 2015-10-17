@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "➜ Setting up jovyan user"
 
 USER_ID=`echo $JUPYTER_ID | cut -d: -f1`
@@ -11,7 +13,7 @@ if [ "$GROUP_ID" != $(id -g jovyan) ] ; then
 fi
 
 # Enable sudo if requested
-if [ ! -z "$GRANT_SUDO" ]; then
+if [ ! -z "$JUPYTER_SUDO" ]; then
   echo "➜ Adding jovyan to sudoers"
   echo "jovyan ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/notebook
 fi

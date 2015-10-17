@@ -13,9 +13,12 @@ Add to your `.bashrc`
 # Visible location and ssh port of the controller
 export JUPYTER_CONTROLLER="192.168.99.100:9000"
 
-# A key pair for connections to the controller
-export JUPYTER_KEY="$HOME/projects/jupyter-cluster/cluster.key"
-export JUPYTER_KEY_PUB="$HOME/projects/jupyter-cluster/cluster.key.pub"
+# (optional) Custom additional docker
+# export JUPYTER_DOCKER_ARGS="-v $HOME/data:/mnt/data:ro"
+
+# A key pair for connecting to the controller
+export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
+export JUPYTER_KEY_PUB="$HOME/.ssh/id_rsa.pub"
 
 # User mapping
 export JUPYTER_ID="1000:1000"
@@ -23,11 +26,11 @@ export JUPYTER_ID="1000:1000"
 # Image to run for the clients and engines containers
 export JUPYTER_IMAGE="0x0l/scipy"
 
-# (optional) Custom docker mount points
-# export JUPYTER_MOUNT="-v $HOME/projects/jupyter-cluster/cluster.mnt:/mnt"
-
 # Notebook http port
-export JUPYTER_NOTEBOOK_PORT="9001"
+export JUPYTER_NOTEBOOK_PORT="8888"
+
+# (optional) Grant user sudo rights
+# export JUPYTER_SUDO=1
 
 export PATH=$HOME/projects/jupyter-cluster/bin:$PATH
 ```
