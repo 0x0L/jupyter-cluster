@@ -3,6 +3,13 @@
 USAGE="usage: jupyter-docker (console | controller | engines | notebook)"
 
 function parse_env {
+  if [ -z $JUPYTER_NOTEBOOK_PORT ]; then
+    JUPYTER_NOTEBOOK_PORT="8888"
+  fi
+  if [ -z $JUPYTER_IMAGE ]; then
+    JUPYTER_IMAGE="0x0l/jupyter"
+  fi
+
   PARAMS=""
   if [ ! -z $JUPYTER_CONTROLLER ] && [ ! -z $JUPYTER_KEY_PRV ]; then
     PARAMS+="-e JUPYTER_CONTROLLER=$JUPYTER_CONTROLLER "
@@ -43,9 +50,9 @@ parse_env
 
 ACTION=$1
 case $ACTION in
-    console)    run_console ;;
-    controller) run_controller ;;
-    engines)    run_engines ;;
-    notebook)   run_notebook ;;
-    *)          echo $USAGE ;;
+  console)    run_console ;;
+  controller) run_controller ;;
+  engines)    run_engines ;;
+  notebook)   run_notebook ;;
+  *)          echo $USAGE ;;
 esac
