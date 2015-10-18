@@ -2,7 +2,7 @@
 
 set -e
 
-# Pass either "*", "engine" or "client"
+# Pass either "*", engine or client
 FILTER=$1
 
 if [ -z $JUPYTER_CONTROLLER ] || [ ! -f $HOME/.ssh/id_rsa ] ; then
@@ -10,8 +10,8 @@ if [ -z $JUPYTER_CONTROLLER ] || [ ! -f $HOME/.ssh/id_rsa ] ; then
 fi
 
 echo "➜ Connecting to controller"
-CONTROLLER_HOST=`echo $JUPYTER_CONTROLLER | cut -d: -f1`
-CONTROLLER_PORT=`echo $JUPYTER_CONTROLLER | cut -d: -f2`
+CONTROLLER_HOST=$(echo $JUPYTER_CONTROLLER | cut -d: -f1)
+CONTROLLER_PORT=$(echo $JUPYTER_CONTROLLER | cut -d: -f2)
 
 # Enable password-less SSH connections
 cat << __EOF__ > $HOME/.ssh/config
@@ -24,9 +24,9 @@ DIR="$HOME/.ipython/profile_default/security"
 scp -P $CONTROLLER_PORT $CONTROLLER_HOST:$DIR/ipcontroller-$FILTER.json $DIR
 
 # Make tunnels
-PORTS=`cat $DIR/*.json | sed -En "s/.*: ([0-9]+),?/\1/p" | sort | uniq`
+PORTS=$(cat $DIR/*.json | sed -En "s/.*: ([0-9]+),?/\1/p" | sort | uniq)
 TUNNELS=""
 for x in $PORTS; do
   TUNNELS="$TUNNELS -L $x:127.0.0.1:$x"
 done
-ssh -fNT $TUNNELS $CONTROLLER_HOST -p $CONTROLLER_PORT
+ssh -fNT $TUNNELS -p $CONTROLLER_PORT $CONTROLLER_HOST

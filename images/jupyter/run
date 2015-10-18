@@ -4,16 +4,16 @@ set -e
 
 echo "➜ Setting up jovyan user"
 
-USER_ID=`echo $JUPYTER_ID | cut -d: -f1`
-GROUP_ID=`echo $JUPYTER_ID | cut -d: -f2`
+USER_ID=$(echo $JUPYTER_ID | cut -d: -f1)
+GROUP_ID=$(echo $JUPYTER_ID | cut -d: -f2)
 
 useradd --create-home -s /bin/bash -u $USER_ID jovyan
-if [ "$GROUP_ID" != $(id -g jovyan) ] ; then
+if [ $GROUP_ID != $(id -g jovyan) ] ; then
   groupmod -g $GROUP_ID jovyan
 fi
 
 # Enable sudo if requested
-if [ ! -z "$JUPYTER_SUDO" ]; then
+if [ ! -z $JUPYTER_SUDO ]; then
   echo "➜ Adding jovyan to sudoers"
   echo "jovyan ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/notebook
 fi
@@ -33,4 +33,4 @@ cp -R /root/.ipython .ipython
 chown -R jovyan:jovyan /home/jovyan
 
 # Dispatch docker command
-exec su jovyan /docker-commands/$@
+exec su jovyan /docker-commands/$*

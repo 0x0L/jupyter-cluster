@@ -35,10 +35,10 @@ export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
 export JUPYTER_KEY_PUB="$HOME/.ssh/id_rsa.pub"
 
 # (optional) Notebook password hash
-# generated with IPython.lib.passwd
+# generated with IPython.lib.passwd, e.g. "password"
 export JUPYTER_NOTEBOOK_PASSWORD="sha1:2353ceb79862:2c18df074d8ebdff589dc37aa4d871c7b29a5caf"
 
-# (optional) Notebook http port
+# (optional) Notebook https port
 export JUPYTER_NOTEBOOK_PORT="8888"
 
 # (optional) Grant user sudo rights

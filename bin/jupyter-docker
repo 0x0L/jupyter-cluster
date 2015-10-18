@@ -22,7 +22,7 @@ function parse_env {
     PARAMS+="-e JUPYTER_SUDO=1 "
   fi
   if [ ! -z $JUPYTER_ENGINES_N ]; then
-    PARAMS+="-e JUPYTER_ENGINES_N="$JUPYTER_ENGINES_N" "
+    PARAMS+="-e JUPYTER_ENGINES_N=$JUPYTER_ENGINES_N "
   fi
   PARAMS+="$JUPYTER_DOCKER_ARGS "
 }
