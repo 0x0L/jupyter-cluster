@@ -3,9 +3,9 @@ FROM debian:jessie
 ENV SHELL /bin/bash
 
 # Localize en_US.UTF-8
-RUN apt-get update -q \
+RUN apt-get update -qq \
  && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
- && apt-get install -y -q locales \
+ && apt-get install -yqq locales \
  && update-locale LANG=en_US.UTF-8
 
 ENV LANG en_US.UTF-8
@@ -14,7 +14,7 @@ ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING UTF-8
 
 # A few packages
-RUN apt-get install -yq \
+RUN apt-get install -yqq \
       ack-grep \
       build-essential \
       bzip2 \
@@ -43,7 +43,7 @@ RUN apt-get install -yq \
       xsel \
       zip \
       zlib1g-dev \
- && apt-get clean \
+ && apt-get clean -yqq \
  && rm -rf /var/lib/apt/lists/*
 
 # Tini
@@ -55,13 +55,15 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.6.0/tini \
 # Update python packages and install Jupyter
 RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
  && pip3 install -q --upgrade \
+      cloudpickle \
       dill \
       ipyparallel \
       jupyter \
       nose \
       notebook \
       requests[security] \
- && ipython profile create --parallel
+ && ipython profile create --parallel --log-level=CRITICAL \
+ && rm -fr /root/.cache /tmp/*
 
 EXPOSE 2222 8888
 ENTRYPOINT ["tini", "run"]

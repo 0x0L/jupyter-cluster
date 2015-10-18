@@ -24,21 +24,23 @@ export JUPYTER_CONTROLLER="192.168.99.100:9000"
 # export JUPYTER_ENGINES_N="16"
 
 # (optional) User mapping
+# default: "1000:1000"
 # export JUPYTER_ID="1000:1000"
 
 # (optional) Image to run for the clients and engines containers
-# default: 0x0l/jupyter
+# default: "0x0l/jupyter"
 export JUPYTER_IMAGE="0x0l/scipy"
 
 # A key pair for connecting to the controller
-export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
 export JUPYTER_KEY_PUB="$HOME/.ssh/id_rsa.pub"
+export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
 
 # (optional) Notebook password hash
-# generated with IPython.lib.passwd, e.g. "password"
+# generated with IPython.lib.passwd, e.g. for "password"
 export JUPYTER_NOTEBOOK_PASSWORD="sha1:2353ceb79862:2c18df074d8ebdff589dc37aa4d871c7b29a5caf"
 
 # (optional) Notebook https port
+# default: 8888
 export JUPYTER_NOTEBOOK_PORT="8888"
 
 # (optional) Grant user sudo rights

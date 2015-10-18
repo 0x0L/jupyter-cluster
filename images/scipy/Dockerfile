@@ -1,11 +1,11 @@
 FROM 0x0l/jupyter:latest
 
 # Install OpenBLAS
-RUN apt-get update -q \
- && apt-get install -yq --no-install-recommends gfortran \
+RUN apt-get update -qq \
+ && apt-get install -yqq --no-install-recommends gfortran \
  && git clone -q --branch=master git://github.com/xianyi/OpenBLAS.git /tmp/OpenBLAS \
  && ( cd /tmp/OpenBLAS \
-   && make NO_LAPACKE=1 DYNAMIC_ARCH=1 NO_AFFINITY=1 NO_WARMUP=1 NUM_THREADS=64 > /dev/null \
+   && make NO_LAPACKE=1 DYNAMIC_ARCH=1 NO_AFFINITY=1 NO_WARMUP=1 NUM_THREADS=64 > /dev/null 2>&1 \
    && make install ) \
  && rm -fr /tmp/OpenBLAS \
  && echo "/opt/OpenBLAS/lib" > /etc/ld.so.conf.d/openblas.conf \
@@ -18,13 +18,15 @@ RUN pip3 install -q \
       scipy
 
 # More packages
-RUN apt-get install -yq \
+RUN apt-get install -yqq \
+      graphviz \
       libfreetype6-dev \
+      libgraphviz-dev \
       libhdf5-dev \
       libpng-dev \
       libxml2-dev \
       libxslt-dev \
- && apt-get clean \
+ && apt-get clean -yqq \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install -q \
@@ -37,6 +39,7 @@ RUN pip3 install -q \
       lasagne \
       lxml \
       matplotlib \
+      networkx \
       nltk \
       numexpr \
       palettable \
@@ -44,7 +47,9 @@ RUN pip3 install -q \
       pandas-datareader \
       patsy \
       pillow \
+      pygraphviz \
       pykalman \
+      pyyaml \
       quandl \
       scikit-image \
       scikit-learn \
