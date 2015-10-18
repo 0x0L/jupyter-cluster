@@ -36,7 +36,9 @@ function run_engines {
 }
 
 function run_notebook {
-  docker run -d -p $JUPYTER_NOTEBOOK_PORT:8888 $PARAMS $JUPYTER_IMAGE notebook
+  docker run -p $JUPYTER_NOTEBOOK_PORT:8888 \
+             -e JUPYTER_NOTEBOOK_PASSWORD=$JUPYTER_NOTEBOOK_PASSWORD \
+             -d $PARAMS $JUPYTER_IMAGE notebook
 }
 
 function run_controller {

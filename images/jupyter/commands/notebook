@@ -1,11 +1,40 @@
 #!/bin/sh
 
-/docker-commands/controller-connect
+/docker-commands/controller-connect client
 
 echo "➜ Starting up notebook server"
 
 mkdir .jupyter
-echo "c.NotebookApp.server_extensions.append('ipyparallel.nbextension')" \
-  > .jupyter/jupyter_notebook_config.py
+cat << __EOF__ > .jupyter/jupyter_notebook_config.py
+from jupyter_core.paths import jupyter_data_dir
+import subprocess
+import os
+import stat
 
-exec jupyter notebook --ip='*'
+c = get_config()
+c.NotebookApp.ip = '*'
+c.NotebookApp.port = 8888
+c.NotebookApp.open_browser = False
+
+# Generate a certificate
+PEM_FILE = os.path.join(jupyter_data_dir(), 'notebook.pem')
+os.makedirs(os.path.dirname(PEM_FILE))
+subprocess.check_call(['openssl', 'req', '-new',
+                       '-newkey', 'rsa:2048', '-days', '365', '-nodes', '-x509',
+                       '-subj', '/C=XX/ST=XX/L=XX/O=generated/CN=generated',
+                       '-keyout', PEM_FILE, '-out', PEM_FILE])
+
+os.chmod(PEM_FILE, stat.S_IRUSR | stat.S_IWUSR)
+c.NotebookApp.certfile = PEM_FILE
+
+# Set a password if PASSWORD is set
+if 'JUPYTER_NOTEBOOK_PASSWORD' in os.environ:
+  # from IPython.lib import passwd
+  # c.NotebookApp.password = passwd('password')
+  c.NotebookApp.password = os.environ['JUPYTER_NOTEBOOK_PASSWORD']
+
+# ipyparallel tab
+# c.NotebookApp.server_extensions.append('ipyparallel.nbextension')
+__EOF__
+
+exec jupyter notebook

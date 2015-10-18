@@ -4,13 +4,13 @@ echo "➜ SSH server"
 mkdir sshd
 ssh-keygen -q -t rsa -N '' -f sshd/host_key
 
-cat << EOF > sshd/sshd_config
+cat << __EOF__ > sshd/sshd_config
 Port 2222
 Protocol 2
 UsePrivilegeSeparation no
 HostKey $HOME/sshd/host_key
 PidFile $HOME/sshd/pid
-EOF
+__EOF__
 
 cp .ssh/id_rsa.pub .ssh/authorized_keys
 /usr/sbin/sshd -f $HOME/sshd/sshd_config -E $HOME/sshd/log

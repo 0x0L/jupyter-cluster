@@ -34,6 +34,10 @@ export JUPYTER_IMAGE="0x0l/scipy"
 export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
 export JUPYTER_KEY_PUB="$HOME/.ssh/id_rsa.pub"
 
+# (optional) Notebook password hash
+# generated with IPython.lib.passwd
+export JUPYTER_NOTEBOOK_PASSWORD="sha1:2353ceb79862:2c18df074d8ebdff589dc37aa4d871c7b29a5caf"
+
 # (optional) Notebook http port
 export JUPYTER_NOTEBOOK_PORT="8888"
 

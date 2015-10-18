@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/docker-commands/controller-connect
+/docker-commands/controller-connect engine
 
 echo "➜ Starting up engines"
 

@@ -2,6 +2,9 @@
 
 set -e
 
+# Pass either "*", "engine" or "client"
+FILTER=$1
+
 if [ -z $JUPYTER_CONTROLLER ] || [ ! -f $HOME/.ssh/id_rsa ] ; then
   exit
 fi
@@ -11,19 +14,19 @@ CONTROLLER_HOST=`echo $JUPYTER_CONTROLLER | cut -d: -f1`
 CONTROLLER_PORT=`echo $JUPYTER_CONTROLLER | cut -d: -f2`
 
 # Enable password-less SSH connections
-cat << EOF > $HOME/.ssh/config
+cat << __EOF__ > $HOME/.ssh/config
 Host $CONTROLLER_HOST
     StrictHostKeyChecking no
-EOF
+__EOF__
 
 # Retrieve ipyparallel connection files
 DIR="$HOME/.ipython/profile_default/security"
-scp -P $CONTROLLER_PORT $CONTROLLER_HOST:$DIR/* $DIR
+scp -P $CONTROLLER_PORT $CONTROLLER_HOST:$DIR/ipcontroller-$FILTER.json $DIR
 
 # Make tunnels
 PORTS=`cat $DIR/*.json | sed -En "s/.*: ([0-9]+),?/\1/p" | sort | uniq`
 TUNNELS=""
-for x in `echo $PORTS`; do
+for x in $PORTS; do
   TUNNELS="$TUNNELS -L $x:127.0.0.1:$x"
 done
 ssh -fNT $TUNNELS $CONTROLLER_HOST -p $CONTROLLER_PORT
