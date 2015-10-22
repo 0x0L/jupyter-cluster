@@ -1,12 +1,10 @@
-jupyter-cluster
-===============
+# jupyter-cluster
 
 Dockerized Python3 Jupyter/ipyparallel cluster.
 
 This project is hosted on [Github](https://github.com/0x0L/jupyter-cluster) and automated builds are generated at [Docker Hub](https://hub.docker.com/r/0x0l).
 
-Quick usage
------------
+## Quick usage
 
 Add to your `.bashrc` and customize
 ```sh
