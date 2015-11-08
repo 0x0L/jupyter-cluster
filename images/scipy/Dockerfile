@@ -77,3 +77,12 @@ RUN pip3 install -q --upgrade \
 # tmp
 RUN pip3 uninstall -y tables \
  && pip3 install https://github.com/0x0L/PyTables/archive/develop.zip
+
+RUN pip3 install bokeh picklable-itertools progressbar2 pyyaml six toolz \
+ && pip3 install https://github.com/mila-udem/fuel/archive/master.zip \
+ && pip3 install https://github.com/mila-udem/blocks/archive/master.zip \
+ && pip3 install https://github.com/mila-udem/blocks-extras/archive/master.zip \
+ && rm -fr /root/.cache /tmp/*
+
+RUN wget https://github.com/mila-udem/blocks-examples/archive/master.zip \
+ && mv /master.zip /blocks-examples.zip
