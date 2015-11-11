@@ -16,7 +16,7 @@ RUN apt-get update -qq \
  && apt-get clean -yqq \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install -q \
+RUN pip install -q \
       beautifulsoup4 \
       blosc \
       bokeh \
@@ -51,7 +51,7 @@ RUN pip3 install -q \
       xlsxwriter \
  && rm -fr /root/.cache /tmp/*
 
-RUN pip3 install -q --upgrade \
+RUN pip install -q --upgrade \
       https://github.com/Theano/Theano/archive/master.zip \
       https://github.com/fchollet/keras/archive/master.zip \
       https://github.com/lasagne/lasagne/archive/master.zip \
@@ -59,13 +59,13 @@ RUN pip3 install -q --upgrade \
  && rm -fr /root/.cache /tmp/*
 
 # tmp
-RUN pip3 uninstall -y tables \
- && pip3 install https://github.com/0x0L/PyTables/archive/develop.zip
+RUN pip uninstall -y tables \
+ && pip install https://github.com/0x0L/PyTables/archive/develop.zip
 
-RUN pip3 install bokeh picklable-itertools progressbar2 pyyaml six toolz \
- && pip3 install https://github.com/mila-udem/fuel/archive/master.zip \
- && pip3 install https://github.com/mila-udem/blocks/archive/master.zip \
- && pip3 install https://github.com/mila-udem/blocks-extras/archive/master.zip \
+RUN pip install bokeh picklable-itertools progressbar2 pyyaml six toolz \
+ && pip install https://github.com/mila-udem/fuel/archive/master.zip \
+ && pip install https://github.com/mila-udem/blocks/archive/master.zip \
+ && pip install https://github.com/mila-udem/blocks-extras/archive/master.zip \
  && rm -fr /root/.cache /tmp/*
 
 RUN wget https://github.com/mila-udem/blocks-examples/archive/master.zip \

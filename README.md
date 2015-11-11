@@ -1,6 +1,6 @@
 # jupyter-cluster
 
-Dockerized Python3 Jupyter/ipyparallel cluster.
+Dockerized Python Jupyter/ipyparallel cluster.
 
 This project is hosted on [Github](https://github.com/0x0L/jupyter-cluster) and automated builds are generated at [Docker Hub](https://hub.docker.com/r/0x0l).
 
