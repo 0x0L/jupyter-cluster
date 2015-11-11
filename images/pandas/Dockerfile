@@ -41,6 +41,4 @@ RUN pip install -q \
       xlsxwriter \
  && rm -fr /root/.cache /tmp/*
 
- # tmp
-RUN pip uninstall -y tables \
- && pip install https://github.com/0x0L/PyTables/archive/develop.zip
+RUN pip install -q https://github.com/0x0L/PyTables/archive/develop.zip

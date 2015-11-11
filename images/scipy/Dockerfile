@@ -21,3 +21,4 @@ ENV OPENBLAS /opt/OpenBLAS/lib/libopenblas.so
 RUN pip install -q \
       numpy \
       scipy
+ && rm -fr /root/.cache /tmp/*
