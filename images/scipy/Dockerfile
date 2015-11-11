@@ -10,7 +10,7 @@ RUN cd /tmp \
  && wget -q https://github.com/xianyi/OpenBLAS/archive/develop.zip \
  && unzip -qq develop.zip \
  && ( cd /tmp/OpenBLAS-develop \
-   && make NO_LAPACKE=1 DYNAMIC_ARCH=1 NO_AFFINITY=1 NUM_THREADS=64 > /dev/null 2>&1 \
+   && make DYNAMIC_ARCH=1 NUM_THREADS=16 > /dev/null 2>&1 \
    && make install ) \
  && rm -fr /tmp/*develop \
  && echo "/opt/OpenBLAS/lib" > /etc/ld.so.conf.d/openblas.conf \
