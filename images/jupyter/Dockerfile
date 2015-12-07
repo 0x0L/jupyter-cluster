@@ -30,9 +30,9 @@ RUN apt-get install -yqq \
       openssh-server \
       pandoc \
       pkg-config \
-      python \
-      python-dev \
-      python-pip \
+      python3 \
+      python3-dev \
+      python3-pip \
       sqlite3 \
       sudo \
       tmux \
@@ -53,8 +53,8 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.6.0/tini \
  && chmod +x /usr/local/bin/tini
 
 # Update python packages and install Jupyter
-RUN pip list --outdated | cut -d" " -f1 | xargs pip install -q --upgrade \
- && pip install -q --upgrade \
+RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
+ && pip3 install -q --upgrade \
       cloudpickle \
       dill \
       ipyparallel \
@@ -66,12 +66,11 @@ RUN pip list --outdated | cut -d" " -f1 | xargs pip install -q --upgrade \
  && rm -fr /root/.cache /tmp/*
 
 EXPOSE 2222 8888
+ENTRYPOINT ["tini", "run"]
 
 ENV JUPYTER_ID="1000:1000"
 ENV JUPYTER_ENGINES_N=""
 ENV JUPYTER_CONTROLLER=""
-
-ENTRYPOINT ["tini", "run"]
 CMD ["console"]
 
 COPY run /usr/sbin/run
