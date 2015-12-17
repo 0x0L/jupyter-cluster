@@ -4,7 +4,7 @@ FROM 0x0l/jupyter:latest
 RUN apt-get update -qq \
  && apt-get install -yqq gfortran libopenblas-dev
 
-RUN pip install -q numpy scipy
+RUN pip3 install -q numpy scipy
 
 # More packages
 RUN apt-get install -yqq \
@@ -21,7 +21,7 @@ RUN apt-get install -yqq \
  && apt-get clean -yqq \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install -q \
+RUN pip3 install -q \
       beautifulsoup4 \
       blosc \
       bokeh \
@@ -52,10 +52,10 @@ RUN pip install -q \
       xlsxwriter \
  && rm -fr /root/.cache /tmp/*
 
-RUN pip install https://github.com/0x0L/PyTables/archive/develop.zip
+RUN pip3 install https://github.com/0x0L/PyTables/archive/develop.zip
 
-RUN pip install -q --upgrade \
-      https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp27-none-linux_x86_64.whl \
+RUN pip3 install -q --upgrade \
+      https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp34-none-linux_x86_64.whl \
       https://github.com/Theano/Theano/archive/master.zip \
       https://github.com/fchollet/keras/archive/master.zip \
       https://github.com/lasagne/lasagne/archive/master.zip \

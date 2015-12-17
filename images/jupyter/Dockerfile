@@ -30,9 +30,9 @@ RUN apt-get install -yqq \
       openssh-server \
       pandoc \
       pkg-config \
-      python \
-      python-dev \
-      python-pip \
+      python3 \
+      python3-dev \
+      python3-pip \
       sqlite3 \
       sudo \
       tmux \
@@ -52,8 +52,8 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
 # Update python packages and install Jupyter
-RUN pip list --outdated | cut -d " " -f 1 | xargs pip install -q --upgrade \
- && pip install -q --upgrade \
+RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
+ && pip3 install -q --upgrade \
       cloudpickle \
       dill \
       ipyparallel \
