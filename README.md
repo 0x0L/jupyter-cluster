@@ -18,12 +18,10 @@ export JUPYTER_CONTROLLER="192.168.99.100:9000"
 # export JUPYTER_DOCKER_ARGS="-v $HOME/data:/mnt/data:ro"
 
 # (optional) Number of engines per node
-# default: number of available cpu cores
-# export JUPYTER_ENGINES_N="16"
+# export JUPYTER_ENGINES_N=
 
 # (optional) User mapping
-# default: "1000:1000"
-# export JUPYTER_ID="1000:1000"
+# export JUPYTER_ID="jovyan:1000:100"
 
 # (optional) Image to run for the clients and engines containers
 # default: "0x0l/jupyter"
@@ -35,7 +33,7 @@ export JUPYTER_KEY_PRV="$HOME/.ssh/id_rsa"
 
 # (optional) Notebook password hash
 # generated with IPython.lib.passwd, e.g. for "password"
-export JUPYTER_NOTEBOOK_PASSWORD="sha1:2353ceb79862:2c18df074d8ebdff589dc37aa4d871c7b29a5caf"
+# export JUPYTER_NOTEBOOK_PASSWORD="sha1:2353ceb79862:2c18df074d8ebdff589dc37aa4d871c7b29a5caf"
 
 # (optional) Notebook https port
 # default: 8888

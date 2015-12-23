@@ -20,10 +20,11 @@ Host $CONTROLLER_HOST
 __EOF__
 
 # Retrieve ipyparallel connection files
+ipython profile create --parallel --log-level=ERROR
 DIR="$HOME/.ipython/profile_default/security"
 scp -P $CONTROLLER_PORT $CONTROLLER_HOST:$DIR/ipcontroller-$FILTER.json $DIR
 
-# Make tunnels
+# Build tunnels
 PORTS=$(cat $DIR/*.json | sed -En "s/.*: ([0-9]+),?/\1/p" | sort | uniq)
 TUNNELS=""
 for x in $PORTS; do

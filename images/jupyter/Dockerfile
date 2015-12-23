@@ -47,9 +47,8 @@ RUN apt-get install -yqq \
  && rm -rf /var/lib/apt/lists/*
 
 # Add Tini
-ENV TINI_VERSION v0.8.4
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
+RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.8.4/tini \
+ && chmod +x /tini
 
 # Update python packages and install Jupyter
 RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
@@ -61,13 +60,12 @@ RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
       nose \
       notebook \
       requests[security] \
- && ipython profile create --parallel --log-level=CRITICAL \
  && rm -fr /root/.cache /tmp/*
 
 EXPOSE 2222 8888
 ENTRYPOINT ["/tini", "run"]
 
-ENV JUPYTER_ID="1000:1000"
+ENV JUPYTER_ID="jovyan:1000:100"
 ENV JUPYTER_ENGINES_N=""
 ENV JUPYTER_CONTROLLER=""
 CMD ["console"]
