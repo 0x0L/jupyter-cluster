@@ -45,6 +45,7 @@ function run_controller {
   CONTROLLER_PORT=$(echo $JUPYTER_CONTROLLER | cut -d: -f2)
   docker run -v $JUPYTER_KEY_PUB:/id_rsa.pub:ro \
              -p $CONTROLLER_PORT:2222 \
+             -e JUPYTER_ID=$JUPYTER_ID \
              -d 0x0l/jupyter controller
 }
 
