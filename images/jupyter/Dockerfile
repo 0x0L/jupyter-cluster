@@ -21,6 +21,7 @@ RUN apt-get install -yqq \
       ca-certificates \
       curl \
       git \
+      ldap-utils \
       less \
       libcurl4-openssl-dev \
       libffi-dev \
