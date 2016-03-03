@@ -53,8 +53,6 @@ RUN pip3 install -q \
       xlsxwriter \
  && rm -fr /root/.cache /tmp/*
 
-# RUN python3 -m nltk.downloader -d /usr/local/share/nltk_data all
-
 RUN pip3 install https://github.com/0x0L/PyTables/archive/develop.zip
 
 RUN pip3 install -q \
