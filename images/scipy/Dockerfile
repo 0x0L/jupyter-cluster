@@ -10,6 +10,7 @@ RUN pip3 install -q numpy scipy
 RUN apt-get install -yqq \
       graphviz \
       hdf5-tools \
+      libav-tools \
       libfreetype6-dev \
       libgraphviz-dev \
       libhdf5-dev \
@@ -52,10 +53,12 @@ RUN pip3 install -q \
       xlsxwriter \
  && rm -fr /root/.cache /tmp/*
 
+# RUN python3 -m nltk.downloader -d /usr/local/share/nltk_data all
+
 RUN pip3 install https://github.com/0x0L/PyTables/archive/develop.zip
 
-RUN pip3 install -q --upgrade \
-      https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp34-none-linux_x86_64.whl \
+RUN pip3 install -q \
+      https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.7.1-cp34-none-linux_x86_64.whl \
       https://github.com/Theano/Theano/archive/master.zip \
       https://github.com/fchollet/keras/archive/master.zip \
       https://github.com/lasagne/lasagne/archive/master.zip \

@@ -20,20 +20,27 @@ RUN apt-get install -yqq \
       bzip2 \
       ca-certificates \
       curl \
+      fonts-dejavu \
       git \
       ldap-utils \
       less \
       libcurl4-openssl-dev \
       libffi-dev \
+      libglib2.0-0 \
+      libsm6 \
       libsqlite3-dev \
       libssl-dev \
+      libxext6 \
+      libxrender1 \
       libzmq3-dev \
+      mercurial \
       openssh-server \
       pandoc \
       pkg-config \
       python3 \
       python3-dev \
       python3-pip \
+      subversion \
       sqlite3 \
       sudo \
       tmux \
@@ -48,7 +55,7 @@ RUN apt-get install -yqq \
  && rm -rf /var/lib/apt/lists/*
 
 # Add Tini
-RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.8.4/tini \
+RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.9.0/tini \
  && chmod +x /tini
 
 # Update python packages and install Jupyter
@@ -57,6 +64,7 @@ RUN pip3 list --outdated | cut -d " " -f 1 | xargs pip3 install -q --upgrade \
       cloudpickle \
       dill \
       ipyparallel \
+      ipywidgets \
       jupyter \
       nose \
       notebook \
