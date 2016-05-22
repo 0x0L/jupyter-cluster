@@ -1,24 +1,18 @@
-FROM ubuntu:latest
+FROM 0x0l/base:latest
 
-RUN apt-get update -qq \
- && locale-gen en_US.UTF-8 \
- && update-locale LANG=en_US.UTF-8
-
-ENV SHELL /bin/bash
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING UTF-8
 
-RUN apt-get install -yqq \
+RUN apt-get update -qq \
+ && apt-get install -yqq \
       curl \
       ffmpeg \
       g++ \
       gcc \
       gfortran \
       git \
+      graphviz \
+      graphviz-dev \
       less \
-      libblosc-dev \
       libblosc-dev \
       libedit-dev \
       libfreetype6-dev \
@@ -52,8 +46,11 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
       blosc \
       boto \
       bottleneck \
+      cppimport \
       cvxpy \
+      deap \
       gmpy \
+      graphviz \
       h5py \
       html5lib \
       ipyparallel \
@@ -71,6 +68,7 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
       pandas-datareader \
       Pillow \
       https://github.com/quantopian/pyfolio/archive/master.zip \
+      pygraphviz \
       pykalman \
       https://github.com/pymc-devs/pymc3/archive/master.zip \
       quandl \
@@ -79,6 +77,8 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
       scikit-image \
       scikit-learn \
       scipy \
+      scoop \
+      scrapy \
       sqlalchemy \
       statsmodels \
       sympy \
@@ -91,8 +91,3 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
 
 ENV THEANORC /etc/theanorc:~/.theanorc
 COPY theanorc /etc/theanorc
-
-ENV TINI_VERSION v0.9.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
-ENTRYPOINT ["/tini", "--"]
