@@ -19,6 +19,7 @@ RUN apt-get update -qq \
       libgmp-dev \
       libhdf5-dev \
       libjpeg-dev \
+      libnetcdf-dev \
       libopenblas-dev \
       libpng3-dev \
       libssl-dev \
@@ -59,6 +60,7 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
       llvmlite \
       lxml \
       matplotlib \
+      netCDF4 \
       networkx \
       nose \
       numba \
