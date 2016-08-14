@@ -11,6 +11,9 @@ alpha:
 jupyter:
 	$(BUILD) -t 0x0l/jupyter images/jupyter
 
+conda:
+	$(BUILD) -t 0x0l/conda images/conda
+
 # scipy:
 # 	$(BUILD) -t 0x0l/scipy images/scipy
 #
