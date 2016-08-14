@@ -48,6 +48,7 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
       boto \
       bottleneck \
       cppimport \
+      cufflinks \
       cvxpy \
       deap \
       gmpy \
@@ -69,10 +70,12 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
       pandas \
       pandas-datareader \
       Pillow \
+      plotly \
       https://github.com/quantopian/pyfolio/archive/master.zip \
       pygraphviz \
       pykalman \
       https://github.com/pymc-devs/pymc3/archive/master.zip \
+      qgrid \
       quandl \
       requests[security] \
       seaborn \
