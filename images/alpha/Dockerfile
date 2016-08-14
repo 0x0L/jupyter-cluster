@@ -96,3 +96,5 @@ RUN LLVM_CONFIG=llvm-config-3.7 pip install -q \
 
 ENV THEANORC /etc/theanorc:~/.theanorc
 COPY theanorc /etc/theanorc
+
+RUN jupyter nbextension enable --py widgetsnbextension

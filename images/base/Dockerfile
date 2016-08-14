@@ -12,7 +12,7 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get install -yqq gosu
 
 # Add Tini
-ENV TINI_VERSION v0.9.0
+ENV TINI_VERSION v0.10.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "/init.sh"]
