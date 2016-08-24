@@ -32,3 +32,6 @@ RUN conda install -y -c gusdunn pymc3
 RUN conda install -y -c Quantopian \
   pyfolio \
   qgrid
+
+RUN pip install -r https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt \
+ && pip install auto-sklearn
