@@ -1,37 +1,45 @@
 FROM continuumio/anaconda3:latest
 
+
 RUN apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y \
-  gcc \
-  g++
+      g++ \
+      gcc \
+      graphviz
+
 
 RUN conda update -y --all \
- && conda install -y \
-  cvxopt \
-  ipyparallel \
-  netcdf4 \
-  seaborn \
-  xarray
+ && conda uninstall -y \
+      anaconda \
+      anaconda-build \
+      anaconda-client \
+      anaconda-navigator \
+      anaconda-verify \
+      nb_anacondacloud \
+      nb_conda \
+      nb_conda_kernels
 
-RUN conda remove nb_anacondacloud
+
+RUN conda install -y \
+      cvxopt \
+      distributed \
+      ipyparallel \
+      netcdf4 \
+      seaborn \
+      xarray
+
 
 RUN conda install -y -c conda-forge \
-  deap \
-  ffmpeg \
-  ipywidgets \
-  keras \
-  pykalman \
-  theano \
-  widgetsnbextension
+      deap \
+      ffmpeg \
+      keras \
+      pykalman \
+      tensorflow \
+      theano
 
-RUN jupyter nbextension enable --py widgetsnbextension
 
-RUN conda install -y -c gusdunn pymc3
-
-RUN conda install -y -c Quantopian \
-  pyfolio \
-  qgrid
-
-RUN pip install -r https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.txt \
- && pip install auto-sklearn
+RUN pip install \
+      graphviz \
+      https://github.com/pymc-devs/pymc3/archive/master.zip \
+      https://github.com/automl/auto-sklearn/archive/master.zip

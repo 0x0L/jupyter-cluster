@@ -1,24 +1,8 @@
-BUILD:=docker build --rm --force-rm
+BUILD_FLAGS:=--rm --force-rm
+#--no-cache
 
-all: base alpha
+IMAGES = $(patsubst images/%/,%,$(wildcard images/*/))
 
-base:
-	$(BUILD) -t 0x0l/base images/base
-
-alpha:
-	$(BUILD) -t 0x0l/alpha images/alpha
-
-jupyter:
-	$(BUILD) -t 0x0l/jupyter images/jupyter
-
-conda:
-	$(BUILD) -t 0x0l/conda images/conda
-
-# scipy:
-# 	$(BUILD) -t 0x0l/scipy images/scipy
-#
-# data:
-# 	$(BUILD) -t 0x0l/data images/data
-
-# install:
-# 	cp bin/jupyter-docker "${HOME}/bin"
+.PHONY: $(IMAGES)
+$(IMAGES):
+	docker build $(BUILD_FLAGS) -t 0x0l/$@ images/$@
