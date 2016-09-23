@@ -27,6 +27,7 @@ RUN conda install -y \
       ipyparallel \
       netcdf4 \
       seaborn \
+      tensorflow \
       xarray
 
 
@@ -35,7 +36,6 @@ RUN conda install -y -c conda-forge \
       ffmpeg \
       keras \
       pykalman \
-      tensorflow \
       theano
 
 
