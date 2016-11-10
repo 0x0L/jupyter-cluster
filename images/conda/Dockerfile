@@ -34,6 +34,7 @@ RUN conda uninstall -y anaconda \
       ipyparallel \
       netcdf4 \
       seaborn \
+      theano \
       tensorflow \
       xarray \
  && conda install -y -c conda-forge \
@@ -41,7 +42,6 @@ RUN conda uninstall -y anaconda \
       ffmpeg \
       keras \
       pykalman \
-      theano \
  && conda clean -y --all \
  && rm -fr /opt/conda/etc/jupyter/* \
  && jupyter nbextension enable --py --sys-prefix widgetsnbextension \
