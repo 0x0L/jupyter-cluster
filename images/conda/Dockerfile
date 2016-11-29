@@ -18,6 +18,7 @@ RUN apt-get install -y \
       g++ \
       gcc \
       graphviz \
+      make \
       nano \
       tmux \
       unzip \
@@ -51,4 +52,5 @@ RUN conda uninstall -y anaconda \
 RUN pip install \
       arch \
       graphviz \
+      hmmlearn \
       https://github.com/pymc-devs/pymc3/archive/master.zip
