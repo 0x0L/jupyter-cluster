@@ -1,56 +1,47 @@
 FROM continuumio/anaconda3:latest
 
-
 RUN apt-get update \
  && apt-get upgrade -y \
  && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
  && apt-get install -y locales \
  && update-locale LANG=en_US.UTF-8
 
-
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV SHELL /bin/bash
 
-
 RUN apt-get install -y \
-      g++ \
-      gcc \
+      build-essential \
       graphviz \
-      make \
       nano \
+      pandoc \
       tmux \
       unzip \
       vim \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ && apt-get clean
 
-
-RUN conda uninstall -y anaconda \
- && conda update -y --all \
+RUN conda update -y conda \
+ && conda update -y anaconda \
+ && conda install -y -c conda-forge \
+      netcdf4 \
  && conda install -y \
       cvxopt \
       distributed \
       ipyparallel \
-      netcdf4 \
-      seaborn \
-      theano \
-      tensorflow \
       xarray \
- && conda install -y -c conda-forge \
-      deap \
-      ffmpeg \
-      keras \
-      pykalman \
- && conda clean -y --all \
- && rm -fr /opt/conda/etc/jupyter/* \
- && jupyter nbextension enable --py --sys-prefix widgetsnbextension \
- && find /opt/conda -not -perm -o=r | xargs chmod o+r
+ && conda clean -y --all
 
-
-RUN pip install \
+RUN pip install --no-cache-dir \
       arch \
+      deap \
       graphviz \
       hmmlearn \
-      https://github.com/pymc-devs/pymc3/archive/master.zip
+      keras \
+      pykalman \
+      pymc3 \
+      pywavelets \
+      tensorflow
+
+RUN find /opt/conda -not -perm -o=r | xargs chmod o+r \
+ && rm -rf /tmp/* /var/tmp/*
